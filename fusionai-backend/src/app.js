@@ -11,7 +11,7 @@ import routes from "./routes/index.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ cors: "*" }));
 
 app.use(helmet());
 
@@ -19,6 +19,17 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
-app.use("/api", routes);
+app.use(express.urlencoded({ extended: true }));
+
+// api entry point ...
+app.use("/api/v1", routes);
+
+// api status: 404 ...
+app.use((req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
 
 export default app;

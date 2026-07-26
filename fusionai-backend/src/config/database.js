@@ -1,12 +1,13 @@
 //
 
 import mongoose from "mongoose";
+import env from "../config/env";
 
 // ----------------------------------------------
 
 const connectDatabase = async () => {
   try {
-    const connection = await mongoose.connect(process.env.MONGODB_URI);
+    const connection = await mongoose.connect(env.MONGODB_URI);
 
     console.log("✅ MongoDB Connected");
     console.log(`📦 Database: ${connection.connection.name}`);
