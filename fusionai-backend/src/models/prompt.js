@@ -6,11 +6,11 @@ import { randomUUID } from "crypto";
 const Schema = mongoose.Schema;
 const { ObjectId } = Schema.Types;
 
-import PromptDataSchema from "./schemas/promptdata.schema";
-import ExecutionSchema from "./schemas/execution.schema";
-import ComparisonSchema from "./schemas/comparison.schema";
-import OverallAnalyticsSchema from "./schemas/overallanalytics.schema";
-import UsageSchema from "./schemas/usage.schema";
+import PromptDataSchema from "./schemas/promptdata.schema.js";
+import ExecutionSchema from "./schemas/execution.schema.js";
+import ComparisonSchema from "./schemas/comparison.schema.js";
+import OverallAnalyticsSchema from "./schemas/overallanalytics.schema.js";
+import UsageSchema from "./schemas/usage.schema.js";
 
 const PromptSchema = new Schema(
   {

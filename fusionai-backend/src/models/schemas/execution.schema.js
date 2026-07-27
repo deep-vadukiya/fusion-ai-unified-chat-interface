@@ -5,13 +5,13 @@ import { randomUUID } from "crypto";
 
 const Schema = mongoose.Schema;
 
-import RequestSchema from "./request.schema";
-import ResponseSchema from "./response.schema";
-import UsageSchema from "./usage.schema";
-import TimingSchema from "./timing.schema";
-import PricingSchema from "./pricing.schema";
-import AnalyticsSchema from "./overallanalytics.schema";
-import ErrorSchema from "./error.schema";
+import RequestSchema from "./request.schema.js";
+import ResponseSchema from "./response.schema.js";
+import UsageSchema from "./usage.schema.js";
+import TimingSchema from "./timing.schema.js";
+import PricingSchema from "./pricing.schema.js";
+import AnalyticsSchema from "./overallanalytics.schema.js";
+import ErrorSchema from "./error.schema.js";
 
 const ExecutionSchema = new Schema(
   {
