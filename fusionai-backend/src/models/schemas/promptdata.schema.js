@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-import AttachmentSchema from "./attachment.schema";
+import AttachmentSchema from "./attachment.schema.js";
 
 const PromptDataSchema = new Schema(
   {
