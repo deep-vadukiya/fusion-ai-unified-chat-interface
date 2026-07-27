@@ -2,11 +2,14 @@
 
 import { Router } from "express";
 import healthRoutes from "./health.routes.js";
+import chatRoutes from "./chat.routes.js";
 
 // ----------------------------------------------
 
-const router = Router();
+const routes = Router();
 
-router.use("/health", healthRoutes);
+routes.use("/health", healthRoutes);
 
-export default router;
+routes.use("/prompts", chatRoutes);
+
+export default routes;
