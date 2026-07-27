@@ -17,7 +17,7 @@ routes.use("/health", healthRoutes);
 
 routes.use("/auth", authRouter);
 routes.use("/", verifyToken, authRouter);
-routes.use("/personalities", personalityRoutes);
-routes.use("/chat", chatRoutes);
+routes.use("/personalities", verifyToken, personalityRoutes);
+routes.use("/chat", verifyToken, chatRoutes);
 
 export default routes;
