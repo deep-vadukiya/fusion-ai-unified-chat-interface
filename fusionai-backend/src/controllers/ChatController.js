@@ -1,44 +1,26 @@
 //
 
-import ChatService from "../services/ChatService.js";
+import { generateChat } from "../services/chat/chat-generation.service.js";
 
 // ----------------------------------------------
 
-class ChatController {
-  async createPrompt(req, res, next) {
-    console.log("===");
+export const generate = async (req, res) => {
+  try {
+    const result = await generateChat({
+      chat_id: req.body.chat_id,
+      user_id: req.user._id,
+      message: req.body.message,
+      personality_id: req.body.personality_id,
+    });
 
-    try {
-      const execution = await ChatService.createPrompt(req.body);
-
-      res.setHeader("Content-Type", "text/plain; charset=utf-8");
-      res.setHeader("Transfer-Encoding", "chunked");
-
-      for await (const event of execution.stream) {
-        switch (event.type) {
-          case "token":
-            console.log("===", event.content);
-
-            res.write(event.content);
-            break;
-
-          case "error":
-            throw new Error(event.message);
-
-          default:
-            break;
-        }
-      }
-
-      const result = await execution.complete();
-
-      console.log(result);
-
-      res.end();
-    } catch (error) {
-      next(error);
-    }
+    return res.status(201).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
-}
-
-export default new ChatController();
+};

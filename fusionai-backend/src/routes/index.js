@@ -14,6 +14,8 @@ routes.use("/health", healthRoutes);
 
 routes.use("/personalities", personalityRoutes);
 
-routes.use("/prompts", chatRoutes);
+// routes.use("/prompts", chatRoutes);
+
+routes.use("/chat", chatRoutes);
 
 export default routes;
