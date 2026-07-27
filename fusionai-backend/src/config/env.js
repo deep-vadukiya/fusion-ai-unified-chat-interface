@@ -19,6 +19,8 @@ const env = {
 
   // client url ...
   CLIENT_URL: process.env.CLIENT_URL || "*",
+
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
 };
 
 export default env;
