@@ -1,13 +1,16 @@
 //
 
 import Router from "./routes";
+import { AuthProvider } from "./contexts/JWTContext";
 
 // ----------------------------------------------
 
 function App() {
   return (
     <>
-      <Router />
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
     </>
   );
 }

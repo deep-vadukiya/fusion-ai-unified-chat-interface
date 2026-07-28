@@ -62,7 +62,7 @@ const LoginForm = () => {
           </a>
         </div>
 
-        <button disabled={isSubmitting}>Log in</button>
+        <button type="submit">Log in</button>
       </form>
     </>
   );
