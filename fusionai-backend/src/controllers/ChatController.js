@@ -5,18 +5,25 @@ import { generateChat } from "../services/chat/chat-generation.service.js";
 // ----------------------------------------------
 
 export const generate = async (req, res) => {
-  try {
-    const result = await generateChat({
-      chat_id: req.body.chat_id,
-      user_id: req.user._id,
-      message: req.body.message,
-      personality_id: req.body.personality_id,
-    });
+  const { body, user } = req;
+  const { chat_id, message, personality_id } = body;
 
-    return res.status(201).json({
-      success: true,
-      data: result,
-    });
+  try {
+    if (message && personality_id) {
+      const result = await generateChat({
+        chat_id: chat_id,
+        user_id: user._id,
+        message: message,
+        personality_id: personality_id,
+      });
+
+      return res.status(201).json({
+        success: true,
+        data: result,
+      });
+    } else {
+      throw new Error("Please add message and personality");
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,
