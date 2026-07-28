@@ -1,11 +1,13 @@
 //
 
+import Router from "./routes";
+
 // ----------------------------------------------
 
 function App() {
   return (
     <>
-      <p>hello world</p>
+      <Router />
     </>
   );
 }
