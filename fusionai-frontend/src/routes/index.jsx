@@ -1,8 +1,12 @@
 //
 
 import { useRoutes } from "react-router-dom";
-//
+// guards
+import AuthGuard from "../guards/AuthGuard";
+import GuestGuard from "../guards/GuestGuard";
+// pages
 import SignIn from "../pages/auth/SignIn";
+import Chats from "../pages/Chats";
 // utility page
 import NotFound from "../pages/NotFound";
 
@@ -25,10 +29,25 @@ export default function Router() {
         },
         {
           path: "sign-up",
+          element: <GuestGuard>{/* <SignUp /> */}</GuestGuard>,
+        },
+      ],
+    },
+
+    {
+      path: "chat",
+      element: (
+        <AuthGuard>
+          <p>Chatroom wrapper</p>
+        </AuthGuard>
+      ),
+      children: [
+        {
+          path: "",
           element: (
-            <GuestGuard>
-              <SignUp />
-            </GuestGuard>
+            <AuthGuard>
+              <Chats />
+            </AuthGuard>
           ),
         },
       ],
