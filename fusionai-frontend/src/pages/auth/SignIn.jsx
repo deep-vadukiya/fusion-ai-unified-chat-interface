@@ -23,7 +23,7 @@ export default function SignIn() {
         <div>
           <div>
             <div sx={{ flexGrow: 1 }}>
-              <h5>Sign in to Open Chat</h5>
+              <h5>Sign in to FusionAI</h5>
               <p>Enter your details below.</p>
             </div>
           </div>

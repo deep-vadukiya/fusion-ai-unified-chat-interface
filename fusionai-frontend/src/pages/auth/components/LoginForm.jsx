@@ -62,12 +62,7 @@ const LoginForm = () => {
           </a>
         </div>
 
-        <button
-          disabled={isSubmitting}
-          startIcon={isSubmitting ? <p>submitting ...</p> : null}
-        >
-          Log in
-        </button>
+        <button disabled={isSubmitting}>Log in</button>
       </form>
     </>
   );
