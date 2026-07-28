@@ -6,6 +6,7 @@ import AuthGuard from "../guards/AuthGuard";
 import GuestGuard from "../guards/GuestGuard";
 // pages
 import SignIn from "../pages/auth/SignIn";
+import SignUp from "../pages/auth/SignUp";
 import Chats from "../pages/Chats";
 // utility page
 import NotFound from "../pages/NotFound";
@@ -29,7 +30,11 @@ export default function Router() {
         },
         {
           path: "sign-up",
-          element: <GuestGuard>{/* <SignUp /> */}</GuestGuard>,
+          element: (
+            <GuestGuard>
+              <SignUp />
+            </GuestGuard>
+          ),
         },
       ],
     },
