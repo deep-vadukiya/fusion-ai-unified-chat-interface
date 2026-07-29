@@ -9,18 +9,18 @@ const client = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
-const stream = async ({ model, messages }) => {
-  return await client.chat.completions.create({
+export const stream = async ({ model, messages }) => {
+  const str = await client.chat.completions.create({
     model,
-
     messages,
-
     stream: true,
-
     stream_options: {
       include_usage: true,
     },
+    max_completion_tokens: 128,
   });
+
+  return str;
 };
 
-export default stream;
+export default { stream };
