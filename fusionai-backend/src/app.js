@@ -19,6 +19,11 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  req.request_time = new Date().toISOString();
+  next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 
 // api entry point ...

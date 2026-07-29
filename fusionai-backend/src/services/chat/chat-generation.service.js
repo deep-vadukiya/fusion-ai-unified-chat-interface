@@ -14,9 +14,16 @@ const generateChatTitle = (message) => {
   return message.trim().replace(/\s+/g, " ").substring(0, 60);
 };
 
-export const generateChat = async (req, res) => {
+export const generateChat = async ({
+  req,
+  res,
+  user_id,
+  chat_id,
+  message,
+  personality_id,
+}) => {
   try {
-    const { chat_id, content, personality_id, provider, model } = req.body;
+    const { message, personality_id, provider, model } = req.body;
 
     // SSE Headers ...
     res.setHeader("Content-Type", "text/event-stream");
@@ -33,7 +40,7 @@ export const generateChat = async (req, res) => {
     } else {
       chat = await Chats.create({
         user_id: req.user._id,
-        title: generateChatTitle(content),
+        title: generateChatTitle(message),
       });
     }
 
@@ -46,11 +53,12 @@ export const generateChat = async (req, res) => {
       personality_id,
       prompt_number: promptNumber + 1,
       role: "user",
-      content,
+      content: message,
       status: "processing",
     });
 
     // Create Execution ...
+
     const execution = await Executions.create({
       prompt_id: prompt._id,
       provider,
@@ -61,11 +69,13 @@ export const generateChat = async (req, res) => {
     // Send Session ...
     res.write(
       `event: session
-        data: ${JSON.stringify({
-          chat_id: chat._id,
-          prompt_id: prompt._id,
-          execution_id: execution._id,
-        })}`,
+data: ${JSON.stringify({
+        chat_id: chat._id,
+        prompt_id: prompt._id,
+        execution_id: execution._id,
+      })}
+
+`,
     );
 
     // Personality ...
@@ -84,68 +94,61 @@ export const generateChat = async (req, res) => {
 
     messages.push({
       role: "user",
-      content,
+      content: message,
     });
 
     // Stream ...
     let assistantResponse = "";
     let usage = {};
 
-    try {
-      const stream = await OpenAIProvider.stream({
-        model,
-        messages,
-      });
+    const stream = await OpenAIProvider.stream({
+      model,
+      messages,
+    });
 
-      for await (const chunk of stream) {
-        const delta = chunk.choices[0]?.delta?.content ?? "";
-        assistantResponse += delta;
-        res.write(
-          `event: token
-            data: ${JSON.stringify({
-              execution_id: execution._id,
-              content: delta,
-            })}`,
-        );
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta?.content ?? "";
+      assistantResponse += delta;
 
-        if (chunk.usage) {
-          usage = chunk.usage;
-        }
+      res.write(
+        `event: token
+data: ${JSON.stringify({
+          execution_id: execution._id,
+
+          content: delta,
+        })}
+
+`,
+      );
+
+      if (chunk.usage) {
+        usage = chunk.usage;
       }
-
-      // Save Execution ...
-      execution.status = "completed";
-      execution.response = {
-        role: "assistant",
-        content: assistantResponse,
-      };
-
-      execution.usage = usage;
-      await execution.save();
-
-      // Update Prompt ...
-      prompt.status = "completed";
-      await prompt.save();
-
-      // Done ...
-      res.write(
-        `event: done
-        data: {}`,
-      );
-
-      res.end();
-    } catch (err) {
-      execution.status = "failed";
-      execution.error = err.message;
-      await execution.save();
-      res.write(
-        `event: error
-        data: ${JSON.stringify({
-          message: err.message,
-        })}`,
-      );
-      res.end();
     }
+
+    // Save Execution ...
+    execution.status = "completed";
+    execution.response = {
+      role: "assistant",
+      content: assistantResponse,
+    };
+
+    execution.usage = usage;
+    await execution.save();
+
+    // Update Prompt ...
+    prompt.status = "completed";
+    await prompt.save();
+
+    // Done ...
+    res.write(
+      `event: done
+data: {}
+
+`,
+    );
+
+    res.end();
   } catch (err) {
     if (!res.headersSent) {
       return res.status(500).json({
