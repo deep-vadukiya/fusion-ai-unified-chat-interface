@@ -10,6 +10,7 @@ import SignUp from "../pages/auth/SignUp";
 // pages
 import Chats from "../pages/Chats";
 import Prompt from "../pages/Chats/components/Prompt";
+import ChatThread from "../pages/Chats/components/ChatThread";
 // utility page
 import NotFound from "../pages/NotFound";
 
@@ -52,6 +53,10 @@ export default function Router() {
         {
           path: "",
           element: <Prompt />,
+        },
+        {
+          path: ":chat_id",
+          element: <ChatThread />,
         },
       ],
     },
