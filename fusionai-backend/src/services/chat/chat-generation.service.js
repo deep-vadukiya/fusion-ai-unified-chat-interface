@@ -58,7 +58,6 @@ export const generateChat = async ({
     });
 
     // Create Execution ...
-
     const execution = await Executions.create({
       prompt_id: prompt._id,
       provider,
@@ -121,8 +120,12 @@ data: ${JSON.stringify({
 `,
       );
 
-      if (chunk.usage) {
-        usage = chunk.usage;
+      if (chunk?.usage) {
+        usage = {
+          input_tokens: chunk.usage?.prompt_tokens ?? 0,
+          output_tokens: chunk.usage?.completion_tokens ?? 0,
+          total_tokens: chunk.usage?.total_tokens ?? 0,
+        };
       }
     }
 
