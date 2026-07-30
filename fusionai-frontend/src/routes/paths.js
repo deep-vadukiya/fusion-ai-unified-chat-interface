@@ -6,5 +6,6 @@ export const PATH_AUTH = {
 };
 
 export const APP_PATH = {
-  chat: "/chat",
+  newChat: "/chat/new-chat",
+  chatThread: "/thread/:chat_id",
 };
