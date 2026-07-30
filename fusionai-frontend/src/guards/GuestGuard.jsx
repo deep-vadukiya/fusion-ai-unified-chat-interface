@@ -12,7 +12,7 @@ export default function GuestGuard({ children }) {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={APP_PATH.chat} />;
+    return <Navigate to={APP_PATH.newChat} />;
   }
 
   return <>{children}</>;

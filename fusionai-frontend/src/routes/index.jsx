@@ -18,8 +18,6 @@ import NotFound from "../pages/NotFound";
 
 export default function Router() {
   return useRoutes([
-    { path: "", element: <></> },
-
     {
       path: "auth",
       children: [
@@ -51,11 +49,11 @@ export default function Router() {
       ),
       children: [
         {
-          path: "",
+          path: "new-chat",
           element: <Prompt />,
         },
         {
-          path: ":chat_id",
+          path: "thread/:chat_id",
           element: <ChatThread />,
         },
       ],

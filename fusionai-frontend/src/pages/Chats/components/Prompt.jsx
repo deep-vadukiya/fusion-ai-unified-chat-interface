@@ -12,7 +12,7 @@ export default function index() {
   const [prompt, setPrompt] = useState("");
 
   const navigateToChat = (chatId) => {
-    navigate(`/chat/${chatId}`);
+    navigate(`/chat/thread/${chatId}`);
   };
 
   const sendRequest = () => {
