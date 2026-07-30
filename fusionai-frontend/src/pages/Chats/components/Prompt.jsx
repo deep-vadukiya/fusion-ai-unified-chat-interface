@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import generatePrompt from "../../../utils/promptGenerator";
+import { generatePrompt } from "../../../actions/promptGenerator";
 
 // ------------------------------------------------
 

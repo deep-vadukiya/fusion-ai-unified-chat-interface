@@ -15,7 +15,8 @@ const useChatStore = create((set) => ({
 
   // threads ...
   isLoading: false,
-  threads: [],
+  currentChat: null,
+  thread: [],
 
   setSession: (session) =>
     set({
@@ -62,7 +63,7 @@ const useChatStore = create((set) => ({
   isLoadingThread: () => {
     set({
       isLoading: true,
-      threads: [],
+      thread: [],
     });
   },
 
@@ -73,8 +74,8 @@ const useChatStore = create((set) => ({
       const { data } = await getThread(chatId);
 
       set({
-        currentChat: data?.data?.chat,
-        threads: data?.data?.messages,
+        currentChat: data?.chat,
+        thread: data?.messages,
         isLoading: false,
       });
     } catch (error) {

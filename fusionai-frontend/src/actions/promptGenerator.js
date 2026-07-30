@@ -1,6 +1,6 @@
 //
 
-import { axiosInstance as axios } from "../utils/axios";
+import axios from "../utils/axios";
 import { HOST_API } from "../config";
 import useChatStore from "../store/chat.store";
 
