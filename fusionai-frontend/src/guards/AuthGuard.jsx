@@ -11,9 +11,13 @@ import { PATH_AUTH } from "../routes/paths";
 // ----------------------------------------------------------------------
 
 export default function AuthGuard({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isInitialized } = useAuth();
   const { pathname } = useLocation();
   const [requestedLocation, setRequestedLocation] = useState(null);
+
+  if (!isInitialized) {
+    return <p>Loading ...</p>;
+  }
 
   if (!isAuthenticated) {
     if (pathname !== requestedLocation) {
