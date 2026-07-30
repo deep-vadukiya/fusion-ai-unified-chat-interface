@@ -1,5 +1,6 @@
 //
 
+import { axiosInstance as axios } from "../utils/axios";
 import { HOST_API } from "../config";
 import useChatStore from "../store/chat.store";
 
@@ -10,7 +11,8 @@ const chatId = "6a69bb973ee4bda7d6085f30";
 // const chatId = null;
 const personalityId = "6a67820e972e853e63641549";
 
-const generatePrompt = async (data, navigateToChat) => {
+// generate new prompt with stream ...
+export const generatePrompt = async (data, navigateToChat) => {
   const { prompt } = data;
 
   const { setSession, addAssistantMessage, appendToken } =
@@ -90,4 +92,9 @@ const generatePrompt = async (data, navigateToChat) => {
   }
 };
 
-export default generatePrompt;
+// get thread with chat_id ...
+export const getThread = async (chatId) => {
+  const { data } = await axios.get(`chat/${chatId}`);
+
+  return data;
+};
