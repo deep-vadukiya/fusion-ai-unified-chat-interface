@@ -29,8 +29,15 @@ const executionSchema = new mongoose.Schema(
     },
 
     response: {
-      type: String,
-      default: "",
+      role: {
+        type: String,
+        default: 0,
+      },
+
+      content: {
+        type: String,
+        default: 0,
+      },
     },
 
     usage: {

@@ -1,6 +1,6 @@
 //
 
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 // guards
 import AuthGuard from "../guards/AuthGuard";
 import GuestGuard from "../guards/GuestGuard";
@@ -13,11 +13,24 @@ import Prompt from "../pages/Chats/components/Prompt";
 import ChatThread from "../pages/Chats/components/ChatThread";
 // utility page
 import NotFound from "../pages/NotFound";
+// config
+import { PATH_AFTER_LOGIN } from "../config";
 
 // ------------------------------------------------
 
 export default function Router() {
   return useRoutes([
+    {
+      path: "/",
+      element: (
+        <Navigate
+          to={PATH_AFTER_LOGIN}
+          replace
+        />
+      ),
+      index: true,
+    },
+
     {
       path: "auth",
       children: [
@@ -49,8 +62,17 @@ export default function Router() {
       ),
       children: [
         {
-          path: "new-chat",
+          element: (
+            <Navigate
+              to={PATH_AFTER_LOGIN}
+              replace
+            />
+          ),
+          index: true,
+        },
+        {
           element: <Prompt />,
+          index: true,
         },
         {
           path: "thread/:chat_id",

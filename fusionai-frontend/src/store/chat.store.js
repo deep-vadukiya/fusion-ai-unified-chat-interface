@@ -1,6 +1,7 @@
 //
 
 import { create } from "zustand";
+import { getThread } from "../actions/promptGenerator";
 
 // ------------------------------------------------
 
@@ -11,6 +12,11 @@ const useChatStore = create((set) => ({
   messages: [],
 
   isStreaming: false,
+
+  // threads ...
+  isLoading: false,
+  currentChat: null,
+  thread: [],
 
   setSession: (session) =>
     set({
@@ -51,6 +57,35 @@ const useChatStore = create((set) => ({
     set({
       isStreaming: true,
     }),
+
+  // thread ...
+
+  isLoadingThread: () => {
+    set({
+      isLoading: true,
+      thread: [],
+    });
+  },
+
+  getChatThread: async (chatId) => {
+    try {
+      set({ isLoading: true });
+
+      const { data } = await getThread(chatId);
+
+      set({
+        currentChat: data?.chat,
+        thread: data?.messages,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error(error);
+
+      set({
+        isLoading: false,
+      });
+    }
+  },
 }));
 
 export default useChatStore;
