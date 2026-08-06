@@ -61,9 +61,7 @@ export default function ChatThread() {
                   spacing={2}
                   sx={{ marginBottom: 3 }}
                 >
-                  <Typography variant="body2">
-                    <Markdown>{message.content}</Markdown>
-                  </Typography>
+                  <Markdown>{message.content}</Markdown>
                 </Stack>
               ) : null}
             </Box>

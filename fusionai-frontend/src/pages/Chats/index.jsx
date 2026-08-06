@@ -5,12 +5,14 @@ import {
   Box,
   Container,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Typography,
 } from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 // ------------------------------------------------
 
@@ -176,6 +178,14 @@ const ChatsList = ({ chatList }) => {
               padding: 1,
               display: "flex",
               justifyContent: "space-between",
+              "& .actions": {
+                opacity: 0,
+                transition: "opacity 0.2s ease",
+              },
+
+              "&:hover .actions": {
+                opacity: 1,
+              },
             }}
           >
             <ListItemText
@@ -186,9 +196,24 @@ const ChatsList = ({ chatList }) => {
                 textOverflow: "ellipsis",
               }}
             />
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Typography variant="body2">D</Typography>
-              <Typography variant="body2">H</Typography>
+
+            <Box
+              className="actions"
+              sx={{ display: "flex", gap: 0.5 }}
+            >
+              <IconButton
+                size="small"
+                disableRipple={true}
+              >
+                <DeleteOutlineOutlinedIcon fontSize="small" />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                disableRipple={true}
+              >
+                <MoreHorizOutlinedIcon fontSize="small" />
+              </IconButton>
             </Box>
           </ListItemButton>
         </ListItem>
