@@ -3,7 +3,7 @@
 import { createContext, useReducer, useEffect } from "react";
 // utils
 import axios from "../utils/axios";
-import { setSession } from "../utils/jwt";
+import { isValidToken, setSession } from "../utils/jwt";
 
 // ----------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ function AuthProvider({ children }) {
     const accessToken = window.localStorage.getItem("accessToken");
     const user = JSON.parse(window.localStorage.getItem("userData"));
 
-    if (accessToken) {
+    if (accessToken && isValidToken(accessToken)) {
       setSession(accessToken);
 
       dispatch({
