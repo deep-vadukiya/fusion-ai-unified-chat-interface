@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import useChatStore from "../../../store/chat.store";
 //
 import Markdown from "../../../components/Markdown";
+import { Box, Container, Stack, Typography } from "@mui/material";
 
 // ------------------------------------------------
 
@@ -27,19 +28,48 @@ export default function ChatThread() {
     <div>
       <h4>ChatThread</h4>
 
-      <h5>{currentChat?.title ?? ""}</h5>
-
-      <br />
-      <br />
-      <br />
-
-      {thread?.map((message) => (
-        <div key={message.id}>
-          <b>{message.role}</b>
-
-          <Markdown>{message.content}</Markdown>
-        </div>
-      ))}
+      <Container
+        maxWidth="md"
+        sx={{ padding: 2 }}
+      >
+        <Stack
+          direction="column"
+          spacing={2}
+        >
+          {thread?.map((message) => (
+            <Box key={`message-thread-${message?.id}`}>
+              {message?.role === "user" ? (
+                <Stack
+                  spacing={2}
+                  direction="row"
+                  sx={{ justifyContent: "flex-end" }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      backgroundColor: "#ddddddd9",
+                      padding: 1,
+                      paddingInline: 2,
+                      borderRadius: 3,
+                    }}
+                  >
+                    {message?.content ?? ""}
+                  </Typography>
+                </Stack>
+              ) : message.role === "assistant" ? (
+                <Stack
+                  spacing={2}
+                  sx={{ marginBottom: 3 }}
+                >
+                  <Typography variant="body2">
+                    <Markdown>{message.content}</Markdown>
+                  </Typography>
+                </Stack>
+              ) : null}
+            </Box>
+          ))}
+        </Stack>
+      </Container>
     </div>
   );
 }

@@ -7,11 +7,9 @@ import { AuthProvider } from "./contexts/JWTContext";
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <Router />
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   );
 }
 
