@@ -1,7 +1,7 @@
 //
 
 import { useEffect, useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useParams } from "react-router-dom";
 // @mui ...
 import {
   Box,
@@ -27,6 +27,7 @@ import { APP_PATH } from "../../routes/paths";
 
 export default function index() {
   const { getChatsList, chatsList } = useChatStore();
+  const { chat_id } = useParams();
 
   useEffect(() => {
     getChatsList();
@@ -58,6 +59,7 @@ export default function index() {
               <ListItemButton
                 component={Link}
                 to={APP_PATH.newChat}
+                selected={!chat_id}
                 sx={{
                   width: "100%",
                   minWidth: 0,
@@ -146,6 +148,7 @@ export default function index() {
 //
 const ChatsList = ({ chat }) => {
   const [hovered, setHovered] = useState(false);
+  const { chat_id } = useParams();
 
   return (
     <ListItem
@@ -156,6 +159,7 @@ const ChatsList = ({ chat }) => {
     >
       <ListItemButton
         component={Link}
+        selected={chat_id === chat._id}
         to={`/chat/thread/${chat._id}`}
         sx={{
           width: "100%",

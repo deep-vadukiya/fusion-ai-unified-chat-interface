@@ -1,19 +1,26 @@
 //
 
+import { Stack, Typography, Box } from "@mui/material";
 import PromptComponent from "./PromptComponent";
 
 // ------------------------------------------------
 
 export default function index() {
   return (
-    <div>
-      <p>prompt section</p>
-
-      <br />
-      <br />
-      <br />
+    <Stack
+      sx={{
+        height: "100%",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      spacing={3}
+    >
+      <Box>
+        <Typography variant="body2">How Can I Help You Today ...?</Typography>
+      </Box>
 
       <PromptComponent />
-    </div>
+    </Stack>
   );
 }
