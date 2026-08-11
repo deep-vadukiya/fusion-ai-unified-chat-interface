@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     maxLength: 100,
     select: false,
   },
-  created: { type: Date, default: Date.now },
+  created_at: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model("user", UserSchema);

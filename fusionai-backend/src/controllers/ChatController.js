@@ -61,7 +61,7 @@ export const getThreads = async (req, res) => {
         role: "user",
         content: prompt.content,
         status: prompt.status,
-        created_at: prompt.createdAt,
+        created_at: prompt.created_at,
       });
 
       const execution = executionMap.get(prompt._id.toString());
@@ -85,7 +85,7 @@ export const getThreads = async (req, res) => {
         chat: {
           _id: chat._id,
           title: chat.title,
-          created_at: chat.createdAt,
+          created_at: chat.created_at,
         },
         messages,
       },

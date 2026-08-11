@@ -125,6 +125,12 @@ const PromptSchema = new Schema(
       default: false,
       index: true,
     },
+
+    created_at: {
+      type: Date,
+      default: Date.now,
+      immutable: true,
+    },
   },
   {
     timestamps: true,

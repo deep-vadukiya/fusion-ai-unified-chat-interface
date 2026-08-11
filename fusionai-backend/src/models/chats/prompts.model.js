@@ -56,6 +56,12 @@ const promptSchema = new mongoose.Schema(
       enum: ["pending", "processing", "completed", "failed"],
       default: "pending",
     },
+
+    created_at: {
+      type: Date,
+      default: Date.now,
+      immutable: true,
+    },
   },
   {
     timestamps: true,

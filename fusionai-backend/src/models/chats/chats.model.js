@@ -22,6 +22,12 @@ const chatSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    created_at: {
+      type: Date,
+      default: Date.now,
+      immutable: true,
+    },
   },
   {
     timestamps: true,
