@@ -1,43 +1,77 @@
 //
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import useChatStore from "../../../store/chat.store";
-//
-import Markdown from "../../../components/Markdown";
+// @mui
 import { Box, Container, Stack, Typography } from "@mui/material";
+// store ...
+import useChatStore from "../../../store/chat.store";
+// components ...
+import PromptComponent from "./PromptComponent";
+import Markdown from "../../../components/Markdown";
 
 // ------------------------------------------------
 
 export default function ChatThread() {
   const { chat_id } = useParams();
 
-  const { currentChat, thread, isLoading, getChatThread } = useChatStore();
+  const { thread, isLoading, getChatThread, isStreaming } = useChatStore();
+
+  const containerRef = useRef(null);
+  const bottomRef = useRef(null);
 
   useEffect(() => {
-    if (chat_id) getChatThread(chat_id);
+    if (!chat_id) return;
+    if (isStreaming) return;
+    getChatThread(chat_id);
   }, [chat_id]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      150;
+
+    if (isNearBottom) {
+      bottomRef.current?.scrollIntoView({
+        behavior: "auto",
+      });
+    }
+  }, [thread]);
 
   if (isLoading) {
     return <p>Loading ...</p>;
   }
 
-  console.log(thread);
-
   return (
-    <div>
-      <h4>ChatThread</h4>
-
-      <Container
-        maxWidth="md"
-        sx={{ padding: 2 }}
+    <Container
+      sx={{
+        height: "98vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      maxWidth="md"
+    >
+      <Box
+        sx={{
+          flex: 1,
+          overflowY: "auto",
+          minHeight: 0,
+          px: 2,
+          py: 3,
+          mx: 5,
+        }}
       >
         <Stack
           direction="column"
           spacing={2}
+          ref={containerRef}
         >
-          {thread?.map((message) => (
-            <Box key={`message-thread-${message?.id}`}>
+          {thread?.map((message, i) => (
+            <Box key={`message-thread-${i}`}>
               {message?.role === "user" ? (
                 <Stack
                   spacing={2}
@@ -66,8 +100,22 @@ export default function ChatThread() {
               ) : null}
             </Box>
           ))}
+
+          <Box ref={bottomRef} />
         </Stack>
-      </Container>
-    </div>
+      </Box>
+
+      <Box
+        sx={{
+          width: "100%",
+          px: { xs: 1.5, md: 3 },
+          pb: 2,
+          pt: 1,
+          backgroundColor: "background.default",
+        }}
+      >
+        <PromptComponent />
+      </Box>
+    </Container>
   );
 }
