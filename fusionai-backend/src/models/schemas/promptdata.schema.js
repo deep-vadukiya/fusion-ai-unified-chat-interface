@@ -87,7 +87,7 @@ const PromptDataSchema = new Schema(
       },
     },
 
-    createdAt: {
+    created_at: {
       type: Date,
       default: Date.now,
       immutable: true,
