@@ -34,6 +34,6 @@ const PersonalitySchema = new Schema(
   },
 );
 
-const Personalities = mongoose.model("personalities", PersonalitySchema);
+const Personalities = mongoose.model("personality", PersonalitySchema);
 
 export default Personalities;

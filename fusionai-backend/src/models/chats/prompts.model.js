@@ -20,7 +20,7 @@ const promptSchema = new mongoose.Schema(
 
     personality_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "personalities",
+      ref: "personality",
       default: null,
     },
 

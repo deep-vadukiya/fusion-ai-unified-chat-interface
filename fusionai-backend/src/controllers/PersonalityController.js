@@ -32,7 +32,7 @@ export const createPersonality = async (req, res) => {
 // GET: all personalities ...
 export const getAllPersonalities = async (req, res) => {
   try {
-    const personalities = await Personalities.find().sort({ createdAt: -1 });
+    const personalities = await Personalities.find().sort({ created_at: -1 });
 
     return res.status(200).json({
       success: true,

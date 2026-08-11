@@ -74,7 +74,7 @@ export const getThreads = async (req, res) => {
           content: execution.response?.content ?? "",
           status: execution.status,
           usage: execution.usage,
-          created_at: execution.createdAt,
+          created_at: execution.created_at,
         });
       }
     }
@@ -89,6 +89,34 @@ export const getThreads = async (req, res) => {
         },
         messages,
       },
+    });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+// get chats list based on user_id ...
+export const getChatsList = async (req, res) => {
+  try {
+    const { user } = req;
+
+    // Get chats ...
+    const chats = await Chats.find({ user_id: user._id })
+      .sort({ created_at: -1 })
+      .lean();
+
+    return res.status(200).json({
+      success: true,
+      data: chats.map((chat) => ({
+        _id: chat._id,
+        title: chat.title,
+        created_at: chat.created_at,
+      })),
     });
   } catch (err) {
     console.error(err);

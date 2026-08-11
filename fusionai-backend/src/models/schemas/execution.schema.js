@@ -128,7 +128,7 @@ const ExecutionSchema = new Schema(
       default: null,
     },
 
-    createdAt: {
+    created_at: {
       type: Date,
       default: Date.now,
       immutable: true,
