@@ -7,8 +7,7 @@ import useChatStore from "../store/chat.store";
 // ------------------------------------------------
 
 // testing variables
-const chatId = "6a69bb973ee4bda7d6085f30";
-// const chatId = null;
+const chatId = null;
 const personalityId = "6a67820e972e853e63641549";
 
 // generate new prompt with stream ...
@@ -90,6 +89,12 @@ export const generatePrompt = async (data, navigateToChat) => {
       }
     }
   }
+};
+
+export const getChatsList = async () => {
+  const { data } = await axios.get(`chat`);
+
+  return data;
 };
 
 // get thread with chat_id ...

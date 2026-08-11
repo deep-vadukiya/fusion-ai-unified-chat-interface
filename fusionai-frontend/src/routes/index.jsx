@@ -71,8 +71,8 @@ export default function Router() {
           index: true,
         },
         {
+          path: "new",
           element: <Prompt />,
-          index: true,
         },
         {
           path: "thread/:chat_id",

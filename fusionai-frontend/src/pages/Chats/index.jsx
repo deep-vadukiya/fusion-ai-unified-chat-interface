@@ -1,5 +1,6 @@
 //
 
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import {
   Box,
@@ -13,113 +14,18 @@ import {
 } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+// @zustand ...
+import useChatStore from "../../store/chat.store";
 
 // ------------------------------------------------
 
-const chatList = [
-  {
-    id: 1,
-    title: "Chat 1",
-  },
-  {
-    id: 2,
-    title: "Chat 2",
-  },
-  {
-    id: 3,
-    title:
-      "Chat 3 lorem impsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 4,
-    title:
-      "Chat 4 lorem impsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 5,
-    title:
-      "Chat 5 lorem impsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 1,
-    title:
-      "Chat 6 lorem impsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 2,
-    title: "Chat 2",
-  },
-  {
-    id: 3,
-    title: "Chat 3",
-  },
-  {
-    id: 4,
-    title: "Chat 4",
-  },
-  {
-    id: 5,
-    title: "Chat 5",
-  },
-  {
-    id: 1,
-    title: "Chat 1",
-  },
-  {
-    id: 2,
-    title: "Chat 2",
-  },
-  {
-    id: 3,
-    title: "Chat 3",
-  },
-  {
-    id: 4,
-    title: "Chat 4",
-  },
-  {
-    id: 5,
-    title: "Chat 5",
-  },
-  {
-    id: 1,
-    title: "Chat 1",
-  },
-  {
-    id: 2,
-    title: "Chat 2",
-  },
-  {
-    id: 3,
-    title: "Chat 3",
-  },
-  {
-    id: 4,
-    title: "Chat 4",
-  },
-  {
-    id: 5,
-    title: "Chat 5",
-  },
-  {
-    id: 5,
-    title: "Chat 5 lorem impsum dolor sit amet.",
-  },
-  {
-    id: 1,
-    title: "Chat 6 lorem impsum dolor ",
-  },
-  {
-    id: 5,
-    title: "Chat 5 lorem impsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    id: 1,
-    title: "Chat 6 lorem impsum.",
-  },
-];
-
 export default function index() {
+  const { getChatsList, chatsList } = useChatStore();
+
+  useEffect(() => {
+    getChatsList();
+  }, []);
+
   return (
     <Container
       disableGutters={true}
@@ -138,7 +44,7 @@ export default function index() {
             padding: 1,
           }}
         >
-          <ChatsList chatList={chatList} />
+          <ChatsList chatList={chatsList} />
         </Grid>
 
         <Grid
@@ -158,8 +64,6 @@ export default function index() {
 
 //
 const ChatsList = ({ chatList }) => {
-  //
-
   return (
     <List dense={true}>
       {chatList.map((chat, i) => (
@@ -169,7 +73,7 @@ const ChatsList = ({ chatList }) => {
         >
           <ListItemButton
             component="a"
-            href={`/chat/thread/${i}`}
+            href={`/chat/thread/${chat?._id}`}
             sx={{
               color: "black",
               textDecoration: "none",
@@ -189,7 +93,7 @@ const ChatsList = ({ chatList }) => {
             }}
           >
             <ListItemText
-              primary={chat.title}
+              primary={chat?.title ?? "Untitled Chat"}
               sx={{
                 whiteSpace: "nowrap",
                 overflow: "hidden",
