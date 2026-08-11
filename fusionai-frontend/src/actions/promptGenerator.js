@@ -7,19 +7,27 @@ import useChatStore from "../store/chat.store";
 // ------------------------------------------------
 
 // testing variables
-const chatId = null;
 const personalityId = "6a67820e972e853e63641549";
 
 // generate new prompt with stream ...
 export const generatePrompt = async (data, navigateToChat) => {
   const { prompt } = data;
 
-  const { setSession, addAssistantMessage, appendToken } =
-    useChatStore.getState();
+  const {
+    setSession,
+    addAssistantMessage,
+    appendToken,
+    startStreaming,
+    finishStreaming,
+    addUserMessage,
+  } = useChatStore.getState();
 
   const accessToken = window.localStorage.getItem("accessToken");
 
-  if (prompt.length) {
+  if (prompt.trim().length) {
+    addUserMessage(prompt);
+    startStreaming();
+
     const response = await fetch(HOST_API + "/chat", {
       method: "POST",
 
@@ -29,7 +37,7 @@ export const generatePrompt = async (data, navigateToChat) => {
       },
 
       body: JSON.stringify({
-        chat_id: chatId,
+        chat_id: data?.chatId,
 
         message: prompt,
 
@@ -65,25 +73,28 @@ export const generatePrompt = async (data, navigateToChat) => {
 
         const eventName = lines[0].replace("event: ", "");
 
-        const data = JSON.parse(lines[1].replace("data: ", ""));
+        const eventData = JSON.parse(lines[1].replace("data: ", ""));
 
         switch (eventName) {
           case "session":
-            setSession(data);
-            addAssistantMessage(data.execution_id);
-            navigateToChat(data?.chat_id);
+            setSession(eventData);
+            addAssistantMessage(eventData.execution_id);
+            if (!data?.chat_id && eventData?.chat_id)
+              navigateToChat(eventData?.chat_id);
             break;
 
           case "token":
-            appendToken(data.execution_id, data.content);
+            appendToken(eventData.execution_id, eventData.content);
             break;
 
           case "done":
             console.log("Completed");
+            finishStreaming();
             break;
 
           case "error":
-            console.error(data.message);
+            console.error(eventData.message);
+            finishStreaming();
             break;
         }
       }

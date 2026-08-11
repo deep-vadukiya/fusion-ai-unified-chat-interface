@@ -9,8 +9,6 @@ const useChatStore = create((set) => ({
   currentChatId: null,
   currentPromptId: null,
 
-  messages: [],
-
   isStreaming: false,
 
   // chats list ...
@@ -27,10 +25,22 @@ const useChatStore = create((set) => ({
       currentPromptId: session.prompt_id,
     }),
 
+  addUserMessage: (content) =>
+    set((state) => ({
+      thread: [
+        ...state.thread,
+        {
+          message_id: `temp-user-${Date.now()}`,
+          role: "user",
+          content,
+        },
+      ],
+    })),
+
   addAssistantMessage: (execution_id) =>
     set((state) => ({
-      messages: [
-        ...state.messages,
+      thread: [
+        ...state.thread,
         {
           execution_id,
           role: "assistant",
@@ -41,7 +51,7 @@ const useChatStore = create((set) => ({
 
   appendToken: (execution_id, token) =>
     set((state) => ({
-      messages: state.messages.map((message) =>
+      thread: state.thread.map((message) =>
         message.execution_id === execution_id
           ? {
               ...message,

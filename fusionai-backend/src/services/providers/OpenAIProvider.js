@@ -17,7 +17,7 @@ export const stream = async ({ model, messages }) => {
     stream_options: {
       include_usage: true,
     },
-    max_completion_tokens: 128,
+    // max_completion_tokens: 128,
   });
 
   return str;
