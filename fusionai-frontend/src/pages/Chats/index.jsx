@@ -1,7 +1,7 @@
 //
 
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, Link } from "react-router-dom";
 import {
   Box,
   Container,
@@ -44,7 +44,14 @@ export default function index() {
             padding: 1,
           }}
         >
-          <ChatsList chatList={chatsList} />
+          <List dense={true}>
+            {chatsList.map((chat, i) => (
+              <ChatsList
+                chat={chat}
+                key={`chat-list-${i}`}
+              />
+            ))}
+          </List>
         </Grid>
 
         <Grid
@@ -63,65 +70,99 @@ export default function index() {
 }
 
 //
-const ChatsList = ({ chatList }) => {
-  return (
-    <List dense={true}>
-      {chatList.map((chat, i) => (
-        <ListItem
-          key={`chat-list-${i}`}
-          disablePadding
-        >
-          <ListItemButton
-            component="a"
-            href={`/chat/thread/${chat?._id}`}
-            sx={{
-              color: "black",
-              textDecoration: "none",
-              borderRadius: 2,
-              gap: 1,
-              padding: 1,
-              display: "flex",
-              justifyContent: "space-between",
-              "& .actions": {
-                opacity: 0,
-                transition: "opacity 0.2s ease",
-              },
+const ChatsList = ({ chat }) => {
+  const [hovered, setHovered] = useState(false);
 
-              "&:hover .actions": {
-                opacity: 1,
-              },
-            }}
-          >
-            <ListItemText
-              primary={chat?.title ?? "Untitled Chat"}
-              sx={{
+  return (
+    <ListItem
+      disablePadding
+      sx={{ width: "100%" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <ListItemButton
+        component={Link}
+        to={`/chat/thread/${chat._id}`}
+        sx={{
+          width: "100%",
+          minWidth: 0,
+          borderRadius: 2,
+          px: 1.5,
+          py: 1,
+          display: "flex",
+          alignItems: "center",
+          "&:hover .chat-actions": {
+            opacity: 1,
+            pointerEvents: "auto",
+          },
+        }}
+        disableTouchRipple={true}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            overflow: "hidden",
+          }}
+        >
+          <ListItemText
+            primary={chat.title}
+            sx={{
+              m: 0,
+              "& .MuiListItemText-primary": {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-              }}
+              },
+            }}
+          />
+        </Box>
+
+        <Box
+          className="chat-actions"
+          sx={{
+            flexShrink: 0,
+            display: hovered ? "flex" : "none",
+            alignItems: "center",
+            gap: 0.25,
+            opacity: 0,
+            pointerEvents: "none",
+            transition: "opacity 150ms ease",
+          }}
+        >
+          <IconButton
+            size="small"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+
+              // delete action ...
+            }}
+            sx={{ maxWidth: 20, maxHeight: 20, minWidth: 20, minHeight: 20 }}
+          >
+            <DeleteOutlineOutlinedIcon
+              fontSize="small"
+              sx={{ fontSize: 16 }}
             />
+          </IconButton>
 
-            <Box
-              className="actions"
-              sx={{ display: "flex", gap: 0.5 }}
-            >
-              <IconButton
-                size="small"
-                disableRipple={true}
-              >
-                <DeleteOutlineOutlinedIcon fontSize="small" />
-              </IconButton>
+          <IconButton
+            size="small"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
 
-              <IconButton
-                size="small"
-                disableRipple={true}
-              >
-                <MoreHorizOutlinedIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+              // more action ...
+            }}
+            sx={{ maxWidth: 20, maxHeight: 20, minWidth: 20, minHeight: 20 }}
+          >
+            <MoreHorizOutlinedIcon
+              fontSize="small"
+              sx={{ fontSize: 16 }}
+            />
+          </IconButton>
+        </Box>
+      </ListItemButton>
+    </ListItem>
   );
 };
