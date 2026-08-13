@@ -135,7 +135,6 @@ export default function index() {
           sx={{
             height: "100vh",
             overflowY: "auto",
-            padding: 1,
           }}
         >
           <Outlet />
@@ -185,6 +184,7 @@ const ChatsList = ({ chat }) => {
         >
           <ListItemText
             primary={chat.title}
+            title={chat.title}
             sx={{
               m: 0,
               "& .MuiListItemText-primary": {

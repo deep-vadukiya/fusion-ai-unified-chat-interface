@@ -47,75 +47,83 @@ export default function ChatThread() {
   }
 
   return (
-    <Container
+    <Box
       sx={{
         height: "98vh",
         display: "flex",
         flexDirection: "column",
+        width: "100%",
       }}
-      maxWidth="md"
     >
-      <Box
+      <Stack
+        direction="row"
         sx={{
+          width: "100%",
           flex: 1,
           overflowY: "auto",
           minHeight: 0,
-          px: 2,
-          py: 3,
-          mx: 5,
+          justifyContent: "center",
         }}
       >
-        <Stack
-          direction="column"
-          spacing={2}
-          ref={containerRef}
+        <Container
+          sx={{
+            px: 2,
+            py: 3,
+            mx: 5,
+          }}
+          maxWidth="md"
         >
-          {thread?.map((message, i) => (
-            <Box key={`message-thread-${i}`}>
-              {message?.role === "user" ? (
-                <Stack
-                  spacing={2}
-                  direction="row"
-                  sx={{ justifyContent: "flex-end" }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      backgroundColor: "#ddddddd9",
-                      padding: 1,
-                      paddingInline: 2,
-                      borderRadius: 3,
-                    }}
+          <Stack
+            direction="column"
+            spacing={2}
+            ref={containerRef}
+          >
+            {thread?.map((message, i) => (
+              <Box key={`message-thread-${i}`}>
+                {message?.role === "user" ? (
+                  <Stack
+                    spacing={2}
+                    direction="row"
+                    sx={{ justifyContent: "flex-end" }}
                   >
-                    {message?.content ?? ""}
-                  </Typography>
-                </Stack>
-              ) : message.role === "assistant" ? (
-                <Stack
-                  spacing={2}
-                  sx={{ marginBottom: 3 }}
-                >
-                  <Markdown>{message.content}</Markdown>
-                </Stack>
-              ) : null}
-            </Box>
-          ))}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        backgroundColor: "#ddddddd9",
+                        padding: 1,
+                        paddingInline: 2,
+                        borderRadius: 3,
+                      }}
+                    >
+                      {message?.content ?? ""}
+                    </Typography>
+                  </Stack>
+                ) : message.role === "assistant" ? (
+                  <Stack
+                    spacing={2}
+                    sx={{ marginBottom: 3 }}
+                  >
+                    <Markdown>{message.content}</Markdown>
+                  </Stack>
+                ) : null}
+              </Box>
+            ))}
 
-          <Box ref={bottomRef} />
-        </Stack>
-      </Box>
+            <Box ref={bottomRef} />
+          </Stack>
+        </Container>
+      </Stack>
 
       <Box
         sx={{
           width: "100%",
-          px: { xs: 1.5, md: 3 },
           pb: 2,
           pt: 1,
-          backgroundColor: "background.default",
+          backgroundColor: "transparent",
         }}
       >
         <PromptComponent />
       </Box>
-    </Container>
+    </Box>
   );
 }
