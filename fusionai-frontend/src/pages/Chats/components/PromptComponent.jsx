@@ -97,7 +97,6 @@ export default function PromptComponent() {
         <IconButton
           size="small"
           onClick={sendRequest}
-          disabled={!prompt.trim()}
           sx={{
             mb: 0.25,
 
@@ -119,7 +118,10 @@ export default function PromptComponent() {
             },
           }}
         >
-          <ArrowUpwardIcon fontSize="small" />
+          <ArrowUpwardIcon
+            disabled={!prompt.trim()}
+            fontSize="small"
+          />
         </IconButton>
       </Tooltip>
     </Box>
