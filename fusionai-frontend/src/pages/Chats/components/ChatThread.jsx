@@ -3,7 +3,13 @@
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 // @mui
-import { Box, Container, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Stack,
+  Typography,
+} from "@mui/material";
 // store ...
 import useChatStore from "../../../store/chat.store";
 // components ...
@@ -15,7 +21,8 @@ import Markdown from "../../../components/Markdown";
 export default function ChatThread() {
   const { chat_id } = useParams();
 
-  const { thread, isLoading, getChatThread, isStreaming } = useChatStore();
+  const { thread, isLoading, getChatThread, isStreaming, isThinking } =
+    useChatStore();
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
@@ -108,6 +115,26 @@ export default function ChatThread() {
                 ) : null}
               </Box>
             ))}
+
+            {isThinking ? (
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ alignItems: "center" }}
+              >
+                <CircularProgress
+                  enableTrackSlot
+                  size="24px"
+                  aria-label="Thinking …"
+                />
+                <Typography
+                  variant="caption"
+                  color="textDisabled"
+                >
+                  Thinking ...{" "}
+                </Typography>
+              </Stack>
+            ) : null}
 
             <Box ref={bottomRef} />
           </Stack>

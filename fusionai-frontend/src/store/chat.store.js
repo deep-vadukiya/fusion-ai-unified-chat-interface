@@ -11,6 +11,8 @@ const useChatStore = create((set) => ({
 
   isStreaming: false,
 
+  isThinking: false,
+
   // chats list ...
   chatsList: [],
 
@@ -66,10 +68,17 @@ const useChatStore = create((set) => ({
       isStreaming: false,
     }),
 
-  startStreaming: () =>
-    set({
-      isStreaming: true,
-    }),
+  startStreaming: () => {
+    set({ isStreaming: true });
+  },
+
+  startThinking: () => {
+    set({ isThinking: true });
+  },
+
+  stopThinking: () => {
+    set({ isThinking: false });
+  },
 
   // thread ...
 

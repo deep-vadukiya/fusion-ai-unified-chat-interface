@@ -20,6 +20,8 @@ export const generatePrompt = async (data, navigateToChat) => {
     startStreaming,
     finishStreaming,
     addUserMessage,
+    startThinking,
+    stopThinking,
   } = useChatStore.getState();
 
   const accessToken = window.localStorage.getItem("accessToken");
@@ -27,6 +29,7 @@ export const generatePrompt = async (data, navigateToChat) => {
   if (prompt.trim().length) {
     addUserMessage(prompt);
     startStreaming();
+    startThinking();
 
     const response = await fetch(HOST_API + "/chat", {
       method: "POST",
@@ -84,6 +87,7 @@ export const generatePrompt = async (data, navigateToChat) => {
             break;
 
           case "token":
+            stopThinking();
             appendToken(eventData.execution_id, eventData.content);
             break;
 
