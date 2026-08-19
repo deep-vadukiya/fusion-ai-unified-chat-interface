@@ -1,18 +1,22 @@
 //
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 // @mui ...
 import { Box, TextField, Tooltip, IconButton } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 // @action ...
 import { generatePrompt } from "../../../actions/promptGenerator";
+import useChatStore from "../../../store/chat.store";
 
 // ------------------------------------------------
 
 export default function PromptComponent() {
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
+
+  const { threadCleanup, setIsNewChat } = useChatStore();
 
   const [prompt, setPrompt] = useState("");
 
@@ -23,6 +27,12 @@ export default function PromptComponent() {
   const sendRequest = () => {
     const chatId = params?.chat_id || null;
     const data = { prompt, chatId };
+
+    if (location.pathname === "/chat/new") {
+      threadCleanup();
+      setIsNewChat(true);
+    }
+
     generatePrompt(data, navigateToChat);
     setPrompt("");
   };

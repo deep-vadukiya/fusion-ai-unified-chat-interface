@@ -13,6 +13,8 @@ const useChatStore = create((set) => ({
 
   isThinking: false,
 
+  isNewChat: false,
+
   // chats list ...
   chatsList: [],
 
@@ -78,6 +80,14 @@ const useChatStore = create((set) => ({
 
   stopThinking: () => {
     set({ isThinking: false });
+  },
+
+  threadCleanup: () => {
+    set({ thread: [] });
+  },
+
+  setIsNewChat: (val) => {
+    set({ isNewChat: val });
   },
 
   // thread ...

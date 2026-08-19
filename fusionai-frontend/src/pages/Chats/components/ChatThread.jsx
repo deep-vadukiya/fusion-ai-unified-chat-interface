@@ -21,16 +21,29 @@ import Markdown from "../../../components/Markdown";
 export default function ChatThread() {
   const { chat_id } = useParams();
 
-  const { thread, isLoading, getChatThread, isStreaming, isThinking } =
-    useChatStore();
+  const {
+    thread,
+    isLoading,
+    getChatThread,
+    isStreaming,
+    isThinking,
+    isNewChat,
+    setIsNewChat,
+    getChatsList,
+  } = useChatStore();
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
 
   useEffect(() => {
     if (!chat_id) return;
-    if (isStreaming) return;
-    getChatThread(chat_id);
+    if (!isNewChat && isStreaming) return;
+    if (isNewChat) {
+      getChatsList();
+      setIsNewChat(false);
+    } else {
+      getChatThread(chat_id);
+    }
   }, [chat_id]);
 
   useEffect(() => {
